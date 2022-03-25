@@ -2,6 +2,7 @@ import {
   USER_LOGIN_FAIL,
   USER_LOGIN_REQUEST,
   USER_LOGIN_SUCCESS,
+  USER_LOGOUT,
 } from '../Constants/UserConstants';
 import axios from 'axios';
 
@@ -28,6 +29,11 @@ export const login = (email, password) => async (dispatch) => {
           ? error.response.data.error
           : error.message,
     });
-    console.log(error.response.data.error);
   }
+};
+
+export const logout = () => async (dispatch) => {
+  localStorage.removeItem('userInfo');
+  dispatch({ type: USER_LOGOUT });
+  document.location.href = '/login';
 };
