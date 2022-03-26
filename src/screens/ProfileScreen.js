@@ -1,10 +1,22 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Header from '../components/Header';
 import ProfileTabs from '../components/profileComponents/ProfileTabs';
 import Orders from './../components/profileComponents/Orders';
+import { useDispatch, useSelector } from 'react-redux';
+import { getUserDetails } from '../Redux/Actions/UserActions';
+import moment from 'moment';
 
 const ProfileScreen = () => {
   window.scrollTo(0, 0);
+
+  const dispatch = useDispatch();
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
+  useEffect(() => {
+    dispatch(getUserDetails('profile'));
+  }, [dispatch]);
+
   return (
     <>
       <Header />
@@ -19,10 +31,10 @@ const ProfileScreen = () => {
                 </div>
                 <div className='author-card-details col-md-7'>
                   <h5 className='author-card-name mb-2'>
-                    <strong>Admin Doe</strong>
+                    <strong>{userInfo.name}</strong>
                   </h5>
                   <span className='author-card-position'>
-                    <>Joined Dec 12 2021</>
+                    <>Joined {moment(userInfo.createdAt).format('LL')}</>
                   </span>
                 </div>
               </div>
@@ -76,7 +88,7 @@ const ProfileScreen = () => {
               role='tabpanel'
               aria-labelledby='v-pills-home-tab'
             >
-              <ProfileTabs />
+              <ProfileTabs userInfo={userInfo} />
             </div>
             <div
               class='tab-pane fade'
