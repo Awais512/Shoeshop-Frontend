@@ -2,13 +2,19 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Header from './../components/Header';
 import { PayPalButton } from 'react-paypal-button-v2';
+import { useDispatch, useSelector } from 'react-redux';
 
 const OrderScreen = () => {
   window.scrollTo(0, 0);
 
+  const dispatch = useDispatch();
+  const orderDetails = useSelector((state) => state.orderDetails);
+  const { loading, orderItems, shippingAddress } = orderDetails;
+
   return (
     <>
       <Header />
+      {JSON.stringify(orderItems)}
       <div className='container'>
         <div className='row  order-detail'>
           <div className='col-lg-4 col-sm-4 mb-lg-4 mb-5 mb-sm-0'>
