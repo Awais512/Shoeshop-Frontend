@@ -15,6 +15,7 @@ import {
   USER_UPDATE_PROFILE_SUCCESS,
 } from '../Constants/UserConstants';
 import axios from 'axios';
+import { ORDER_LIST_MY_RESET } from '../Constants/OrderConstants';
 
 //Login
 export const login = (email, password) => async (dispatch) => {
@@ -144,5 +145,6 @@ export const logout = () => async (dispatch) => {
   localStorage.removeItem('userInfo');
   dispatch({ type: USER_LOGOUT });
   dispatch({ type: USER_DETAILS_RESET });
+  dispatch({ type: ORDER_LIST_MY_RESET });
   document.location.href = '/login';
 };
