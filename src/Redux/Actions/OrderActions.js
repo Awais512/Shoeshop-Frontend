@@ -7,6 +7,10 @@ import {
   ORDER_DETAILS_FAIL,
   ORDER_DETAILS_REQUEST,
   ORDER_DETAILS_SUCCESS,
+  ORDER_PAY_FAIL,
+  ORDER_PAY_REQUEST,
+  ORDER_PAY_RESET,
+  ORDER_PAY_SUCCESS,
 } from '../Constants/OrderConstants';
 import { logout } from './UserActions';
 
@@ -77,3 +81,40 @@ export const getOrderDetails = (id) => async (dispatch, getState) => {
     });
   }
 };
+
+// ORDER Pay
+export const payOrder =
+  (orderId, paymentResult) => async (dispatch, getState) => {
+    try {
+      dispatch({ type: ORDER_PAY_REQUEST });
+
+      const {
+        userLogin: { userInfo },
+      } = getState();
+
+      const config = {
+        headers: {
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
+
+      const { data } = await axios.put(
+        `/api/orders/${orderId}/pay`,
+        paymentResult,
+        config
+      );
+      dispatch({ type: ORDER_PAY_SUCCESS, payload: data });
+    } catch (error) {
+      const message =
+        error.response && error.response.data.error
+          ? error.response.data.error
+          : error.message;
+      if (message === 'Not authorized to access this route') {
+        dispatch(logout());
+      }
+      dispatch({
+        type: ORDER_PAY_FAIL,
+        payload: message,
+      });
+    }
+  };
