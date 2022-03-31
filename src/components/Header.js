@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { logout } from '../Redux/Actions/UserActions';
 
 const Header = () => {
+  const history = useHistory();
+  const [keyword, setKeyword] = useState('');
   const cart = useSelector((state) => state.cart);
   const { cartItems } = cart;
 
@@ -15,6 +18,15 @@ const Header = () => {
   const logoutHandler = () => {
     console.log('Logout');
     dispatch(logout());
+  };
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+    if (keyword.trim()) {
+      history.push(`/search/${keyword}`);
+    } else {
+      history.push('/');
+    }
   };
 
   return (
@@ -134,11 +146,12 @@ const Header = () => {
                 </Link>
               </div>
               <div className='col-md-6 col-8 d-flex align-items-center'>
-                <form className='input-group'>
+                <form onSubmit={submitHandler} className='input-group'>
                   <input
                     type='search'
                     className='form-control rounded search'
                     placeholder='Search'
+                    onChange={(e) => setKeyword(e.target.value)}
                   />
                   <button type='submit' className='search-button'>
                     search
