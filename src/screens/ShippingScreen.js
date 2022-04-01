@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
-import Header from '../components/Header';
-import { saveShippingAddress } from '../Redux/Actions/CartActions';
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import Header from "../components/Header";
+import { saveShippingAddress } from "../Redux/Actions/cartActions";
 
 const ShippingScreen = ({ history }) => {
   window.scrollTo(0, 0);
@@ -20,50 +19,46 @@ const ShippingScreen = ({ history }) => {
   const submitHandler = (e) => {
     e.preventDefault();
     dispatch(saveShippingAddress({ address, city, postalCode, country }));
-    history.push('/payment');
+    history.push("/payment");
   };
   return (
     <>
       <Header />
-      <div className='container d-flex justify-content-center align-items-center login-center'>
+      <div className="container d-flex justify-content-center align-items-center login-center">
         <form
-          className='Login col-md-8 col-lg-4 col-11'
+          className="Login col-md-8 col-lg-4 col-11"
           onSubmit={submitHandler}
         >
           <h6>DELIVERY ADDRESS</h6>
           <input
+            type="text"
+            placeholder="Enter address"
             value={address}
+            required
             onChange={(e) => setAddress(e.target.value)}
-            type='text'
-            required
-            placeholder='Enter address'
           />
           <input
+            type="text"
+            placeholder="Enter city"
             value={city}
+            required
             onChange={(e) => setCity(e.target.value)}
-            type='text'
-            required
-            placeholder='Enter city'
           />
           <input
+            type="text"
+            placeholder="Enter postal code"
             value={postalCode}
-            onChange={(e) => setPostalCode(e.target.value)}
-            type='text'
             required
-            placeholder='Enter postal code'
+            onChange={(e) => setPostalCode(e.target.value)}
           />
           <input
+            type="text"
+            placeholder="Enter country"
             value={country}
-            onChange={(e) => setCountry(e.target.value)}
-            type='text'
             required
-            placeholder='Enter country'
+            onChange={(e) => setCountry(e.target.value)}
           />
-          <button type='submit'>
-            <Link to='/payment' className='text-white'>
-              Continue
-            </Link>
-          </button>
+          <button type="submit">Continue</button>
         </form>
       </div>
     </>
