@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import Header from "./../components/Header";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { addToCart, removefromcart } from "./../Redux/Actions/cartActions";
+import { addToCart, removefromcart } from "../Redux/Actions/cartActions";
 
 const CartScreen = ({ match, location, history }) => {
   window.scrollTo(0, 0);
